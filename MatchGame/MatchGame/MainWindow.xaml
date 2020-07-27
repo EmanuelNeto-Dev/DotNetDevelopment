@@ -21,24 +21,25 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="2" Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="3" Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
+        <TextBlock Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown" />
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="2" Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="3" Grid.Row="0" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
 
-        <TextBlock Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="1" Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="2" Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="3" Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
+        <TextBlock Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="2" Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="3" Grid.Row="1" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
 
-        <TextBlock Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9"/>
-        <TextBlock Grid.Column="1" Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9"/>
-        <TextBlock Grid.Column="2" Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9"/>
-        <TextBlock Grid.Column="3" Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9"/>
+        <TextBlock Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="2" Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,9" MouseDown="TextBlock_MouseDown"/>
 
-        <TextBlock Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="2" Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
-        <TextBlock Grid.Column="3" Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10"/>
+        <TextBlock Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="2" Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="?" TextAlignment="Center" Height="67" FontSize="36" Margin="10,10,10,10" MouseDown="TextBlock_MouseDown"/>
+        <TextBlock x:Name="TimeTextBlock" TextAlignment="Center" Margin="10,87,0,0" Grid.Row="3" Text="TextBlock" Grid.ColumnSpan="4" Grid.RowSpan="2" FontSize="36" MouseDown="TimeTextBlock_MouseDown"/>
     </Grid>
 </Window>
