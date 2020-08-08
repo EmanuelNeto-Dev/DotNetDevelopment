@@ -12,27 +12,60 @@ namespace ConsoleApp.DataProcessor
 
             // Commmand line validation omitted for brevity
 
-            var command = args[0];
-            if(command.Equals("--file"))
+            var directoryToWatch = args[0];
+
+            if (!Directory.Exists(directoryToWatch))
             {
-                var filePath = args[1];
-                WriteLine($"Single file {filePath} selected");
-                ProcessSingleFile(filePath);
-            }
-            else if(command.Equals("--dir"))
-            {
-                var directoryPath = args[1];
-                var fileType = args[2];
-                WriteLine($"Directory {directoryPath} selected for {fileType} files");
-                ProcessDirectory(directoryPath, fileType);
+                WriteLine($"ERROR: {directoryToWatch} does not exist.");
             }
             else
             {
-                WriteLine("Invalid command line options");
-            }
+                WriteLine($"Watching directory {directoryToWatch} for changes.");
 
-            WriteLine("Press enter to quit");
-            ReadLine();
+                using(var inputFileWatcher = new FileSystemWatcher(directoryToWatch))
+                {
+                    inputFileWatcher.IncludeSubdirectories = false;             //If don't want to monitor the subDirectories
+                    inputFileWatcher.InternalBufferSize = 32768;                // 32 KB -> It's just necessary if we would have a big amount of changes in short period of time
+                    inputFileWatcher.Filter = "*.*";                            // To monitor all types of files that we have
+                    inputFileWatcher.NotifyFilter = NotifyFilters.FileName;     // it depends so much of the type of application that we are building    
+
+                    inputFileWatcher.Created += FileCreated;
+                    inputFileWatcher.Changed += FileChanged;
+                    inputFileWatcher.Deleted += FileDeleted;
+                    inputFileWatcher.Renamed += FileRenamed;
+                    inputFileWatcher.Error += WatcherError;
+
+                    inputFileWatcher.EnableRaisingEvents = true;                // By default the FileSystemWatcher doesn't raise any event. It's necessary to set true
+
+                    WriteLine("Press enter to quit");
+                    ReadLine();
+                }
+            }
+        }
+
+        private static void FileCreated(object sender, FileSystemEventArgs e)
+        {
+            WriteLine($"* File created: {e.Name} - Type: {e.ChangeType}.");
+        }
+
+        private static void FileChanged(object sender, FileSystemEventArgs e)
+        {
+            WriteLine($"* File changed: {e.Name} - Type: {e.ChangeType}.");
+        }
+
+        private static void FileDeleted(object sender, FileSystemEventArgs e)
+        {
+            WriteLine($"* File deleted: {e.Name} - Type: {e.ChangeType}.");
+        }
+
+        private static void FileRenamed(object sender, RenamedEventArgs e)
+        {
+            WriteLine($"* File renamed: {e.OldName} to {e.Name} - Type: {e.ChangeType}.");
+        }
+
+        private static void WatcherError(object sender, ErrorEventArgs e)
+        {
+            WriteLine($"ERROR: file system watching may no longer be active: {e.GetException()}.");
         }
 
         private static void ProcessSingleFile(string filePath)
