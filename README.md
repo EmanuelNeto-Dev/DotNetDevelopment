@@ -1,8 +1,8 @@
 # DotNetDevelopment
 Repositório para armazenamento de projetos em .Net e C#
 
- * 1. Managing files and directories
- * 2. Monitoring the file system for changes
+ * Managing files and directories
+ * Monitoring the file system for changes
     - Infroducing the FileSystemWatcher class
        1. Buffer size
        2. Configuring notification filters
