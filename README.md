@@ -1,6 +1,4 @@
-# DotNetDevelopment
-Repositório para armazenamento de projetos em .Net e C#
-
+# Working with Files and Streams in C#
  * Managing files and directories
  * Monitoring the file system for changes
     - Infroducing the FileSystemWatcher class
