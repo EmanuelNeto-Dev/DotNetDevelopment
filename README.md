@@ -13,6 +13,9 @@ Repositório para armazenamento de projetos em .Net e C#
        2. MemoryCache
      - Add Existing file processing 
      - Testing considerations
+  * Reading and Writing entire files into the memory
+    - Files reading line by line & entirely
+    - Data reading in bytes
 
 # FileSystemWatcher Testing Considerations:
     - Basig file Operations (copy, move, delete, overwrite, rename)
