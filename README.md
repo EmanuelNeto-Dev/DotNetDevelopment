@@ -22,3 +22,13 @@ Repositório para armazenamento de projetos em .Net e C#
     - Files only processed once
     - Network/mapped drive recovery => Error event
     - Existing file processing
+    
+# Reading and Writing files into Memory Considerations:
+    - Benefits:
+        1. Simple code
+        2. Easier to write
+        3. Easy do read & maintain
+    - Drawbacks:
+        1. May be Slow
+        2. Can bring the program to crach (Out of Memory problems)
+        3. There is no random access / seeking
