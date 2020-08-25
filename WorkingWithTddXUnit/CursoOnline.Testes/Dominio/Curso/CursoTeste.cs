@@ -1,4 +1,5 @@
-﻿using ExpectedObjects;
+﻿using CursoOnline.Teste.Dominio._Extensions;
+using ExpectedObjects;
 using System;
 using Xunit;
 
@@ -25,16 +26,73 @@ namespace CursoOnline.Teste.Dominio.Curso
             var cursoEsperado = new
             {
                 nome = "Informática Básica",
-                cargaHoraria = (double) 80,
+                cargaHoraria = (double)80,
                 publicoAlvo = PublicoAlvo.Estudante,
-                valor = (double) 950,
+                valor = (double)950,
             };
             
             //Act
-            Curso curso = new Curso(cursoEsperado.nome, cursoEsperado.cargaHoraria, cursoEsperado.publicoAlvo, cursoEsperado.valor);
+            var curso = new Curso(cursoEsperado.nome, cursoEsperado.cargaHoraria, cursoEsperado.publicoAlvo, cursoEsperado.valor);
+            
+            //Assert
+            cursoEsperado.ToExpectedObject().Matches(curso);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void CursoNaoDeveTerNomeVazioOuNulo(string param)
+        {
+            //Arrange
+            var cursoEsperado = new
+            {
+                nome = param,
+                cargaHoraria = (double)80,
+                publicoAlvo = PublicoAlvo.Estudante,
+                valor = (double)950,
+            };
 
             //Assert
-            cursoEsperado.ToExpectedObject().ShouldMatch(curso);
+            Assert.Throws<ArgumentException>(() => 
+                new Curso(cursoEsperado.nome, cursoEsperado.cargaHoraria, cursoEsperado.publicoAlvo, cursoEsperado.valor))
+                .ComMensagem("Curso não pode ter com nome vazio ou nulo!");
+            
+        }
+
+        [Fact]
+        public void CursoNaoDeveTerCargaHorariaMenorQue1()
+        {
+            //Arrange
+            var cursoEsperado = new
+            {
+                nome = "Informática Básica",
+                cargaHoraria = (double)80,
+                publicoAlvo = PublicoAlvo.Estudante,
+                valor = (double)950,
+            };
+
+            //Assert
+            Assert.Throws<ArgumentException>(() =>
+                new Curso(cursoEsperado.nome, 0, cursoEsperado.publicoAlvo, cursoEsperado.valor))
+                .ComMensagem("Curso precisa ter horária!");
+        }
+
+        [Fact]
+        public void CursoNaoDeveTerValorMenorQue1()
+        {
+            //Arrange
+            var cursoEsperado = new
+            {
+                nome = "Informática Básica",
+                cargaHoraria = (double)80,
+                publicoAlvo = PublicoAlvo.Estudante,
+                valor = (double)950,
+            };
+
+            //Assert
+            Assert.Throws<ArgumentException>(() =>
+                new Curso(cursoEsperado.nome, cursoEsperado.cargaHoraria, cursoEsperado.publicoAlvo, 0))
+                .ComMensagem("Curso precisa não pode ter valor zerado!");
         }
     }
 
@@ -57,6 +115,15 @@ namespace CursoOnline.Teste.Dominio.Curso
 
         public Curso(string nome, double cargaHoraria, PublicoAlvo publicoAlvo, double valor)
         {
+            if(string.IsNullOrEmpty(nome))
+                throw new ArgumentException("Curso não pode ter com nome vazio ou nulo!");
+            
+            if (cargaHoraria < 1)
+                throw new ArgumentException("Curso precisa ter horária!");
+
+            if (valor < 1)
+                throw new ArgumentException("Curso precisa não pode ter valor zerado!");
+
             Nome = nome;
             CargaHoraria = cargaHoraria;
             PublicoAlvo = publicoAlvo;
