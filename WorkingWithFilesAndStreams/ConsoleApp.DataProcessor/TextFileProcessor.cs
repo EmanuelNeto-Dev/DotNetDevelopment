@@ -110,18 +110,18 @@ namespace ConsoleApp.DataProcessor
 
             #region Memory Stream
 
-            using (var memoryStream = new MemoryStream())
-            using (var memoryStreamWriter = new StreamWriter(memoryStream))
-            using (var fileStream = new FileStream(@"C:\data.txt", FileMode.Create))
-            {
-                memoryStreamWriter.WriteLine("Line 1");
-                memoryStreamWriter.WriteLine("Line 2");
+            //using (var memoryStream = new MemoryStream())
+            //using (var memoryStreamWriter = new StreamWriter(memoryStream))
+            //using (var fileStream = new FileStream(@"C:\data.txt", FileMode.Create))
+            //{
+            //    memoryStreamWriter.WriteLine("Line 1");
+            //    memoryStreamWriter.WriteLine("Line 2");
 
-                //Ensure everything written to memory stream
-                memoryStreamWriter.Flush();
+            //    //Ensure everything written to memory stream
+            //    memoryStreamWriter.Flush();
 
-                memoryStream.WriteTo(fileStream);
-            }
+            //    memoryStream.WriteTo(fileStream);
+            //}
 
             #endregion
         }

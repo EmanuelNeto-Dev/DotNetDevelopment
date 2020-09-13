@@ -1,4 +1,6 @@
-﻿using CursoOnline.Teste.Dominio._Builders;
+﻿using Bogus;
+using CursoOnline.Dominio._Curso;
+using CursoOnline.Teste.Dominio._Builders;
 using CursoOnline.Teste.Dominio._Extensions;
 using ExpectedObjects;
 using System;
@@ -24,21 +26,28 @@ namespace CursoOnline.Teste.Dominio._Curso
     public class CursoTeste : IDisposable
     {
         private readonly ITestOutputHelper _output;
+
         private readonly string _nome;
         private readonly int _cargaHoraria;
+        private readonly string _descricao;
         private readonly PublicoAlvo _publicoAlvo;
         private readonly double _valor;
 
         public CursoTeste(ITestOutputHelper output)
         {
+            var faker = new Faker();
+
             _output = output;
             _output.WriteLine("Construtor sendo executado!");
 
-            _nome = "Informática Básica";
-            _cargaHoraria = 80;
-            _publicoAlvo = PublicoAlvo.Estudante;
-            _valor = 950;
-        }
+            _nome           = faker.Random.Word();
+            _cargaHoraria   = faker.Random.Int(50, 1000);
+            _descricao      = faker.Lorem.Paragraph();
+            _publicoAlvo    = PublicoAlvo.Estudante;
+            _valor          = (double) faker.Finance.Amount();
+            
+            _output.WriteLine($"Company fake data: {faker.Company.CompanyName()}");
+        }   
 
         public void Dispose()
         {
@@ -51,11 +60,11 @@ namespace CursoOnline.Teste.Dominio._Curso
             //Arrange
             var cursoEsperado = new
             {
-                nome = "Informática Básica",
-                cargaHoraria = (double)80,
-                descricao = "descricao genérica",
-                publicoAlvo = PublicoAlvo.Estudante,
-                valor = (double)950,
+                nome = _nome,
+                cargaHoraria = _cargaHoraria,
+                descricao = _descricao,
+                publicoAlvo = _publicoAlvo,
+                valor = _valor,
             };
             
             //Act
@@ -104,51 +113,13 @@ namespace CursoOnline.Teste.Dominio._Curso
         {
             //Assert
             Assert.Throws<ArgumentException>(() =>
-                 CursoBuilder.NovoCurso()
+                 CursoBuilder.NovoCurso()   
                     .ComNome(_nome)
                     .ComCargaHoraria(_cargaHoraria)
                     .ComPublicoAlvo(_publicoAlvo)
                     .ComValor(valorInvalido)
                     .Build())
                 .ComMensagem("Curso precisa não pode ter valor zerado!");
-        }
-
-    }
-
-    public enum PublicoAlvo
-    {
-        Estudante,
-        Universitario,
-        Empregado,
-        Empreendedor
-    }
-
-    public class Curso
-    {
-        public string Nome { get; }
-        public double CargaHoraria { get; }
-        public string Descricao { get; }
-        public PublicoAlvo PublicoAlvo { get; }
-        public double Valor { get; }
-
-        public Curso() { }
-
-        public Curso(string nome, double cargaHoraria, string descricao, PublicoAlvo publicoAlvo, double valor)
-        {
-            if(string.IsNullOrEmpty(nome))
-                throw new ArgumentException("Curso não pode ter com nome vazio ou nulo!");
-            
-            if (cargaHoraria < 1)
-                throw new ArgumentException("Curso precisa ter horária!");
-
-            if (valor < 1)
-                throw new ArgumentException("Curso precisa não pode ter valor zerado!");
-
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
-            Descricao = descricao;
-            PublicoAlvo = publicoAlvo;
-            Valor = valor;
         }
 
     }
