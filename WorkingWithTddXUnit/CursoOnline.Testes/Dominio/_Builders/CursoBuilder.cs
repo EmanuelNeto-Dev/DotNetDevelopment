@@ -5,7 +5,7 @@ namespace CursoOnline.Teste.Dominio._Builders
     class CursoBuilder
     {
         private string nome;
-        private int cargaHoraria;
+        private double cargaHoraria;
         private string descricao;
         private PublicoAlvo publicoAlvo;
         private double valor;
@@ -27,7 +27,7 @@ namespace CursoOnline.Teste.Dominio._Builders
             return this;
         }
 
-        public CursoBuilder ComCargaHoraria(int cargaHoraria)
+        public CursoBuilder ComCargaHoraria(double cargaHoraria)
         {
             this.cargaHoraria = cargaHoraria;
             return this;
