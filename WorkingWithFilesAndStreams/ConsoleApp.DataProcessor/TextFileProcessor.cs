@@ -1,16 +1,23 @@
 ﻿using System.IO;
+using System.IO.Abstractions;
 
 namespace ConsoleApp.DataProcessor
 {
     public class TextFileProcessor
     {
+        private readonly IFileSystem _fileSystem;
+
         public string InputFilePath { get; set; }
         public string OutputFilePath { get; set; }
 
         public TextFileProcessor(string inputFilePath, string outputFilePath)
+            : this(inputFilePath, outputFilePath, new FileSystem()) { }
+
+        public TextFileProcessor(string inputFilePath, string outputFilePath, IFileSystem fileSystem)
         {
             this.InputFilePath = inputFilePath;
             this.OutputFilePath = outputFilePath;
+            this._fileSystem = fileSystem;
         }
 
         public void Process()
@@ -86,23 +93,54 @@ namespace ConsoleApp.DataProcessor
 
             #region Way 4
 
-            using (FileStream inputFileStream = File.Open(InputFilePath, FileMode.Open, FileAccess.Read))
-            using (BinaryReader binaryStreamReader = new BinaryReader(inputFileStream))
-            using (FileStream outoutFileStream = File.Create(OutputFilePath))
-            using (BinaryWriter binaryStreamWriter = new BinaryWriter(outoutFileStream))
+            //using (FileStream inputFileStream = File.Open(InputFilePath, FileMode.Open, FileAccess.Read))
+            //using (BinaryReader binaryStreamReader = new BinaryReader(inputFileStream))
+            //using (FileStream outoutFileStream = File.Create(OutputFilePath))
+            //using (BinaryWriter binaryStreamWriter = new BinaryWriter(outoutFileStream))
+            //{
+            //    byte largest = 0;
+
+            //    while (binaryStreamReader.BaseStream.Position < binaryStreamReader.BaseStream.Length)
+            //    {
+            //        byte currentByte = binaryStreamReader.ReadByte();
+            //        binaryStreamWriter.Write(currentByte);
+
+            //        if (currentByte > largest)
+            //            largest = currentByte;
+            //    }
+
+            //    binaryStreamWriter.Write(largest);
+            //}
+
+            #endregion
+
+            #region Way 5 - Test Preparative
+
+            using (var inputStreamReader = _fileSystem.File.OpenText(InputFilePath))
+            using (var outputStreamWriter = _fileSystem.File.CreateText(OutputFilePath))
             {
-                byte largest = 0;
-
-                while (binaryStreamReader.BaseStream.Position < binaryStreamReader.BaseStream.Length)
+                var currentLineNumber = 1;
+                while (!inputStreamReader.EndOfStream)
                 {
-                    byte currentByte = binaryStreamReader.ReadByte();
-                    binaryStreamWriter.Write(currentByte);
+                    string line = inputStreamReader.ReadLine();
+                    string processedLine = line.ToUpperInvariant();
+                    bool isTheLastLine = inputStreamReader.EndOfStream;
 
-                    if (currentByte > largest)
-                        largest = currentByte;
+                    if (currentLineNumber == 2)
+                        Write(line.ToUpperInvariant());
+                    else
+                        Write(line);
+
+                    currentLineNumber++;
+
+                    void Write(string lineContent)
+                    {
+                        if (isTheLastLine)
+                            outputStreamWriter.Write(lineContent);
+                        else
+                            outputStreamWriter.WriteLine(lineContent);
+                    }
                 }
-
-                binaryStreamWriter.Write(largest);
             }
 
             #endregion

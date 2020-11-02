@@ -5,25 +5,32 @@ using System.Globalization;
 using System.IO;
 using CsvHelper.Configuration;
 using System.Linq;
+using System.IO.Abstractions;
 
 namespace ConsoleApp.DataProcessor
 {
     public class CsvFileProcessor
-    {
+    {   
+        private readonly IFileSystem _fileSystem;
+
         public string InputFilePath { get; set; }
         public string OutputFilePath { get; set; }
 
         public CsvFileProcessor(string inputFilePath, string outputFilePath)
+            : this(inputFilePath, outputFilePath, new FileSystem()) { }
+
+        public CsvFileProcessor(string inputFilePath, string outputFilePath, IFileSystem fileSystem)
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
+            _fileSystem = fileSystem;
         }
 
         public void Process()
         {
-            using (StreamReader input = File.OpenText(InputFilePath))
+            using (StreamReader input = _fileSystem.File.OpenText(InputFilePath))
             using (CsvReader csvReader = new CsvReader(input, CultureInfo.InvariantCulture))
-            using (StreamWriter output = File.CreateText(OutputFilePath))
+            using (StreamWriter output = _fileSystem.File.CreateText(OutputFilePath))
             using (var csvWriter = new CsvWriter(output, CultureInfo.InvariantCulture))
             {
                 csvReader.Configuration.TrimOptions = TrimOptions.Trim;
